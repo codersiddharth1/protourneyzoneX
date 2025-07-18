@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Valorant Tournament Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f1923;
+            color: #ece8e1;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 70, 85, 0.1) 0%, rgba(5, 5, 15, 0.3) 90%);
+        }
+        h1, h2, h3 {
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .category-tab.active {
+            background-color: #ff4655;
+            color: white;
+        }
+        .tournament-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 70, 85, 0.2);
+        }
+        .registration-form {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .registration-form.open {
+            max-height: 1500px;
+        }
+        .valorant-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .valorant-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: #ff4655;
+            transition: all 0.3s ease;
+        }
+        .valorant-btn:hover:before {
+            left: 0;
+        }
+        .valorant-btn:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: #ff4655;
+            transition: all 0.3s ease;
+        }
+        .valorant-btn:hover:after {
+            right: 0;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 70, 85, 0.7);
+        }
+        .tournament-banner {
+            background-image: linear-gradient(135deg, rgba(255, 70, 85, 0.2) 0%, rgba(15, 25, 35, 0.9) 100%);
+            border: 1px solid rgba(255, 70, 85, 0.3);
+        }
+        .discord-btn {
+            background-color: #7289da;
+            transition: all 0.3s ease;
+        }
+        .discord-btn:hover {
+            background-color: #5e78d5;
+        }
+        .teams-counter {
+            background: rgba(255, 70, 85, 0.1);
+            border: 1px solid rgba(255, 70, 85, 0.3);
+        }
+        .email-btn {
+            background-color: #ea4335;
+            transition: all 0.3s ease;
+        }
+        .email-btn:hover {
+            background-color: #d33426;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#ff4655] mb-2 glow-text">MINI VALORANT TOURNAMENT</h1>
+            <p class="text-lg text-[#ece8e1] italic">Show Your Skills!</p>
+            <div class="w-24 h-1 bg-[#ff4655] mx-auto mt-4"></div>
+        </header>
+
+        <!-- Teams Counter -->
+        <div class="teams-counter rounded-lg p-4 mb-8 text-center">
+            <h2 class="text-xl font-bold text-[#ff4655] mb-2">Tournament Spots</h2>
+            <div class="flex justify-center items-center gap-3">
+                <div class="text-4xl font-bold text-white">5</div>
+                <div class="text-lg">teams left out of</div>
+                <div class="text-4xl font-bold text-white">8</div>
+            </div>
+            <p class="mt-2 text-sm">Register now before all spots are filled!</p>
+        </div>
+
+        <!-- Tournament Navigation -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button class="category-tab active px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border border-[#ff4655]" data-category="tournament">Tournament Details</button>
+            <button class="category-tab px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border border-[#ff4655] text-[#ff4655]" data-category="rules">Tournament Rules</button>
+            <button class="category-tab px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border border-[#ff4655] text-[#ff4655]" data-category="registration">Registration</button>
+        </div>
+
+        <!-- Tournament Sections -->
+        <div class="tournament-sections">
+            <!-- Tournament Details Section -->
+            <div class="tournament-section" id="tournament">
+                <div class="tournament-banner p-8 rounded-lg shadow-lg mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4 text-[#ff4655]">🎮 Mini Valorant Tournament</h2>
+                            <p class="text-xl mb-6">Show Your Skills and Win Big!</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 text-2xl">💸</div>
+                                    <div>
+                                        <p class="font-medium">Entry Fee:</p>
+                                        <p class="text-lg">₹300 per team</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-10 text-2xl">🏆</div>
+                                    <div>
+                                        <p class="font-medium">Prize Pool:</p>
+                                        <p class="text-lg">₹1,500</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-10 text-2xl">🔥</div>
+                                    <div>
+                                        <p class="font-medium">Format:</p>
+                                        <p class="text-lg">8 Teams Only | 5v5 Knockout</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-10 text-2xl">📍</div>
+                                    <div>
+                                        <p class="font-medium">Location:</p>
+                                        <p class="text-lg">Online (Custom Lobby)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-[#1f2731] p-6 rounded-lg">
+                            <h3 class="text-xl font-bold mb-4 text-center text-[#ff4655]">Prize Distribution</h3>
+                            
+                            <div class="flex items-center mb-6 bg-gradient-to-r from-[#ffd700] to-transparent p-3 rounded-lg">
+                                <div class="text-3xl mr-3">🥇</div>
+                                <div>
+                                    <p class="font-bold">1st Place</p>
+                                    <p class="text-xl">₹1,000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center bg-gradient-to-r from-[#c0c0c0] to-transparent p-3 rounded-lg">
+                                <div class="text-3xl mr-3">🥈</div>
+                                <div>
+                                    <p class="font-bold">2nd Place</p>
+                                    <p class="text-xl">₹500</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 text-center">
+                                <p class="font-medium">Limited Spots Available!</p>
+                                <p class="text-sm text-gray-400">Only <span class="text-[#ff4655] font-bold">5</span> spots left out of 8</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex flex-col md:flex-row justify-between items-center p-4 bg-[#1f2731] rounded-lg">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <div class="text-2xl mr-3">👾</div>
+                            <div>
+                                <p class="font-medium">Discord:</p>
+                                <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="text-[#7289da] hover:underline">https://discord.gg/aHsnT3mKgX</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-3">📧</div>
+                            <div>
+                                <p class="font-medium">Contact Email:</p>
+                                <a href="mailto:gravax.design@gmail.com" class="text-[#ff4655] hover:underline">gravax.design@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button id="main-register-btn" class="valorant-btn bg-[#ff4655] hover:bg-[#ff5e6b] text-white px-8 py-3 rounded-md text-lg font-medium transition-colors">Register Your Team Now</button>
+                        <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="discord-btn text-white px-8 py-3 rounded-md text-lg font-medium transition-colors inline-block ml-4">Join Discord</a>
+                    </div>
+                </div>
+                
+                <div class="bg-[#1f2731] p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-[#ff4655]">Tournament Schedule</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-3 border-l-4 border-[#ff4655] bg-[#0f1923] rounded-r-lg">
+                            <div>
+                                <p class="font-medium">Registration Deadline</p>
+                                <p class="text-sm text-gray-400">48 hours before tournament start</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <p class="font-medium text-[#ff4655]">Limited Spots!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-3 border-l-4 border-[#ff4655] bg-[#0f1923] rounded-r-lg">
+                            <div>
+                                <p class="font-medium">Team Check-in</p>
+                                <p class="text-sm text-gray-400">30 minutes before first match</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <p class="font-medium text-[#ff4655]">Mandatory</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-3 border-l-4 border-[#ff4655] bg-[#0f1923] rounded-r-lg">
+                            <div>
+                                <p class="font-medium">Quarter Finals</p>
+                                <p class="text-sm text-gray-400">Best of 1</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <p class="font-medium text-[#ff4655]">All 8 teams</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-3 border-l-4 border-[#ff4655] bg-[#0f1923] rounded-r-lg">
+                            <div>
+                                <p class="font-medium">Semi Finals</p>
+                                <p class="text-sm text-gray-400">Best of 1</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <p class="font-medium text-[#ff4655]">4 teams</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-3 border-l-4 border-[#ff4655] bg-[#0f1923] rounded-r-lg">
+                            <div>
+                                <p class="font-medium">Finals</p>
+                                <p class="text-sm text-gray-400">Best of 3</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <p class="font-medium text-[#ff4655]">2 teams</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tournament Rules Section -->
+            <div class="tournament-section hidden" id="rules">
+                <h2 class="text-2xl font-bold mb-6 text-center text-[#ece8e1]">Tournament Rules</h2>
+                <div class="bg-[#1f2731] p-6 rounded-lg shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3 text-[#ff4655]">General Rules</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                            <li>All team members must have a valid Riot account</li>
+                            <li>Teams must have 5 main players (no substitutes allowed)</li>
+                            <li>All players must join the tournament Discord server: <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="text-[#7289da] hover:underline">https://discord.gg/aHsnT3mKgX</a></li>
+                            <li>Teams must create a unique team name</li>
+                            <li>Cheating of any kind will result in immediate disqualification</li>
+                            <li>Tournament admins have the final say in all disputes</li>
+                            <li>Teams must be ready 15 minutes before their scheduled match time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3 text-[#ff4655]">Match Format</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                            <li>Quarter Finals and Semi Finals: Best of 1</li>
+                            <li>Finals: Best of 3</li>
+                            <li>Map selection will be done through veto system</li>
+                            <li>Standard competitive rules apply</li>
+                            <li>Teams have 5 minutes between maps in Finals</li>
+                            <li>15 minute grace period for scheduled matches</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-[#ff4655]">Technical Requirements</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                            <li>All players must have a stable internet connection</li>
+                            <li>Discord is mandatory for communication with tournament admins</li>
+                            <li>Players must be able to stream their gameplay if requested</li>
+                            <li>Latest game patch must be installed</li>
+                            <li>In-game voice chat is allowed for team communication</li>
+                            <li>Any technical issues must be reported immediately to admins</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-[#ff4655] bg-opacity-20 rounded-lg border border-[#ff4655]">
+                        <h3 class="text-lg font-semibold mb-2">Important Note:</h3>
+                        <p>By registering for this tournament, all players agree to follow these rules. Failure to comply may result in disqualification without refund of the entry fee.</p>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="discord-btn text-white px-6 py-2 rounded-md text-base font-medium transition-colors inline-block">Join Our Discord Server</a>
+                        <a href="mailto:gravax.design@gmail.com" class="email-btn text-white px-6 py-2 rounded-md text-base font-medium transition-colors inline-block ml-4">Contact via Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Section -->
+            <div class="tournament-section hidden" id="registration">
+                <h2 class="text-2xl font-bold mb-6 text-center text-[#ece8e1]">Tournament Registration</h2>
+                <div class="bg-[#1f2731] p-6 rounded-lg shadow-md">
+                    <div class="mb-6 p-4 bg-[#0f1923] rounded-lg">
+                        <h3 class="text-xl font-semibold mb-3 text-[#ff4655]">Tournament Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-400">Tournament Name:</p>
+                                <p class="font-medium">Mini Valorant Tournament</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Entry Fee:</p>
+                                <p class="font-medium">₹300 per team</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Format:</p>
+                                <p class="font-medium">5v5 Knockout (8 Teams)</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Teams Left:</p>
+                                <p class="font-medium text-[#ff4655]">5 out of 8 spots</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Team Information</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="team-name" class="block text-sm font-medium mb-1">Team Name* <span class="text-xs text-[#ff4655]">(Create a unique team name)</span></label>
+                                    <input type="text" id="team-name" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                </div>
+                                <div>
+                                    <label for="team-captain" class="block text-sm font-medium mb-1">Team Captain*</label>
+                                    <input type="text" id="team-captain" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="block text-sm font-medium mb-1">Contact Email*</label>
+                                    <input type="email" id="contact-email" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                </div>
+                                <div>
+                                    <label for="contact-phone" class="block text-sm font-medium mb-1">Contact Phone*</label>
+                                    <input type="tel" id="contact-phone" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                </div>
+                                <div>
+                                    <label for="discord-id" class="block text-sm font-medium mb-1">Discord ID*</label>
+                                    <input type="text" id="discord-id" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Player Information</h3>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="player1" class="block text-sm font-medium mb-1">Player 1 (Captain)*</label>
+                                        <input type="text" id="player1" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="riot-id1" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                        <input type="text" id="riot-id1" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="player2" class="block text-sm font-medium mb-1">Player 2*</label>
+                                        <input type="text" id="player2" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="riot-id2" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                        <input type="text" id="riot-id2" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="player3" class="block text-sm font-medium mb-1">Player 3*</label>
+                                        <input type="text" id="player3" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="riot-id3" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                        <input type="text" id="riot-id3" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="player4" class="block text-sm font-medium mb-1">Player 4*</label>
+                                        <input type="text" id="player4" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="riot-id4" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                        <input type="text" id="riot-id4" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="player5" class="block text-sm font-medium mb-1">Player 5*</label>
+                                        <input type="text" id="player5" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="riot-id5" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                        <input type="text" id="riot-id5" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Payment Information</h3>
+                        <div class="bg-[#0f1923] p-4 rounded-lg">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <p class="mb-2 font-medium">Registration Process:</p>
+                                    <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+                                        <li>Fill out this registration form completely</li>
+                                        <li>Click "Submit Registration" to send your details directly to <span class="text-[#ff4655] font-medium">gravax.design@gmail.com</span></li>
+                                        <li>You'll receive payment instructions via email</li>
+                                        <li>Join our Discord server: <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="text-[#7289da] hover:underline">https://discord.gg/aHsnT3mKgX</a></li>
+                                        <li>Complete payment of ₹300 using the details provided in the email</li>
+                                    </ol>
+                                    <div class="mt-4 p-3 bg-[#ff4655] bg-opacity-20 rounded border border-[#ff4655] text-sm">
+                                        <p><strong>Important:</strong> Only 5 spots left! Registration is not complete until payment is confirmed.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="bg-[#0a131b] p-6 rounded-lg w-full">
+                                        <h4 class="text-center font-bold text-[#ff4655] mb-3">Contact Information</h4>
+                                        <div class="space-y-4">
+                                            <div class="flex items-center">
+                                                <div class="text-xl mr-3">📧</div>
+                                                <div>
+                                                    <p class="font-medium">Email:</p>
+                                                    <a href="mailto:gravax.design@gmail.com" class="text-[#ff4655] hover:underline">gravax.design@gmail.com</a>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="text-xl mr-3">👾</div>
+                                                <div>
+                                                    <p class="font-medium">Discord:</p>
+                                                    <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="text-[#7289da] hover:underline">https://discord.gg/aHsnT3mKgX</a>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="text-xl mr-3">🏆</div>
+                                                <div>
+                                                    <p class="font-medium">Spots Left:</p>
+                                                    <p class="text-[#ff4655] font-bold">5 out of 8</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 flex justify-center">
+                                            <a href="mailto:gravax.design@gmail.com" class="email-btn text-white px-4 py-2 rounded-md text-sm font-medium transition-colors inline-block">Contact via Email</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-center">
+                        <button id="submit-registration" class="valorant-btn bg-[#ff4655] hover:bg-[#ff5e6b] text-white px-8 py-3 rounded-md text-base font-medium transition-colors">Submit Registration</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="mt-12">
+            <div class="bg-[#1f2731] rounded-lg shadow-md overflow-hidden">
+                <div class="bg-[#ff4655] text-white p-4 flex justify-between items-center" id="registration-form-header">
+                    <h2 class="text-xl font-bold">Tournament Registration</h2>
+                    <span id="selected-tournament">Mini Valorant Tournament - ₹300</span>
+                </div>
+                <div class="registration-form p-0" id="registration-form">
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Team Information</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="reg-team-name" class="block text-sm font-medium mb-1">Team Name* <span class="text-xs text-[#ff4655]">(Create a unique team name)</span></label>
+                                        <input type="text" id="reg-team-name" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="reg-team-captain" class="block text-sm font-medium mb-1">Team Captain*</label>
+                                        <input type="text" id="reg-team-captain" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="reg-contact-email" class="block text-sm font-medium mb-1">Contact Email*</label>
+                                        <input type="email" id="reg-contact-email" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="reg-contact-phone" class="block text-sm font-medium mb-1">Contact Phone*</label>
+                                        <input type="tel" id="reg-contact-phone" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                    <div>
+                                        <label for="reg-discord-id" class="block text-sm font-medium mb-1">Discord ID*</label>
+                                        <input type="text" id="reg-discord-id" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Player Information</h3>
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="reg-player1" class="block text-sm font-medium mb-1">Player 1 (Captain)*</label>
+                                            <input type="text" id="reg-player1" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                        <div>
+                                            <label for="reg-riot-id1" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                            <input type="text" id="reg-riot-id1" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="reg-player2" class="block text-sm font-medium mb-1">Player 2*</label>
+                                            <input type="text" id="reg-player2" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                        <div>
+                                            <label for="reg-riot-id2" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                            <input type="text" id="reg-riot-id2" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="reg-player3" class="block text-sm font-medium mb-1">Player 3*</label>
+                                            <input type="text" id="reg-player3" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                        <div>
+                                            <label for="reg-riot-id3" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                            <input type="text" id="reg-riot-id3" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="reg-player4" class="block text-sm font-medium mb-1">Player 4*</label>
+                                            <input type="text" id="reg-player4" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                        <div>
+                                            <label for="reg-riot-id4" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                            <input type="text" id="reg-riot-id4" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="reg-player5" class="block text-sm font-medium mb-1">Player 5*</label>
+                                            <input type="text" id="reg-player5" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                        <div>
+                                            <label for="reg-riot-id5" class="block text-sm font-medium mb-1">Riot ID*</label>
+                                            <input type="text" id="reg-riot-id5" class="w-full px-3 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff4655]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold mb-4 text-[#ff4655]">Registration Details</h3>
+                            <div class="bg-[#0f1923] p-4 rounded-lg">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <p class="mb-2 font-medium">Your registration will be sent to:</p>
+                                        <div class="p-3 bg-[#1f2731] rounded-lg">
+                                            <div class="flex items-center mb-3">
+                                                <div class="text-xl mr-3">📧</div>
+                                                <div>
+                                                    <p class="font-medium">Email:</p>
+                                                    <a href="mailto:gravax.design@gmail.com" class="text-[#ff4655] hover:underline">gravax.design@gmail.com</a>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm">After submitting, you'll receive payment instructions via email. Registration is only complete after payment confirmation.</p>
+                                        </div>
+                                        <div class="mt-4 p-3 bg-[#ff4655] bg-opacity-20 rounded border border-[#ff4655] text-sm">
+                                            <p><strong>Important:</strong> Only 5 spots remaining! Register now to secure your team's place in the tournament.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-center">
+                                        <div class="bg-[#1f2731] p-4 rounded-lg w-full">
+                                            <h4 class="text-center font-bold text-[#ff4655] mb-3">Tournament Summary</h4>
+                                            <ul class="space-y-2">
+                                                <li class="flex justify-between">
+                                                    <span>Entry Fee:</span>
+                                                    <span class="font-medium">₹300</span>
+                                                </li>
+                                                <li class="flex justify-between">
+                                                    <span>Prize Pool:</span>
+                                                    <span class="font-medium">₹1,500</span>
+                                                </li>
+                                                <li class="flex justify-between">
+                                                    <span>Format:</span>
+                                                    <span class="font-medium">5v5 Knockout</span>
+                                                </li>
+                                                <li class="flex justify-between">
+                                                    <span>Teams:</span>
+                                                    <span class="font-medium">8 Teams (5 spots left)</span>
+                                                </li>
+                                            </ul>
+                                            <div class="mt-4 text-center">
+                                                <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="discord-btn text-white px-4 py-2 rounded-md text-sm font-medium transition-colors inline-block">Join Discord</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex justify-center">
+                            <button id="submit-form" class="valorant-btn bg-[#ff4655] hover:bg-[#ff5e6b] text-white px-8 py-3 rounded-md text-base font-medium transition-colors">Submit Registration</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-400 text-sm">
+            <p>© 2023 Protourneyzone. All rights reserved.</p>
+            <p class="mt-2">For inquiries: <a href="mailto:gravax.design@gmail.com" class="text-[#ff4655] hover:underline">gravax.design@gmail.com</a></p>
+            <div class="mt-4">
+                <a href="https://discord.gg/aHsnT3mKgX" target="_blank" class="text-[#7289da] hover:underline">Join our Discord</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category tabs
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const tournamentSections = document.querySelectorAll('.tournament-section');
+
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    categoryTabs.forEach(t => t.classList.add('text-[#ff4655]'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    tab.classList.remove('text-[#ff4655]');
+                    
+                    // Hide all tournament sections
+                    tournamentSections.forEach(section => section.classList.add('hidden'));
+                    
+                    // Show the corresponding tournament section
+                    const category = tab.getAttribute('data-category');
+                    document.getElementById(category).classList.remove('hidden');
+                });
+            });
+
+            // Registration form handling
+            const registrationForm = document.getElementById('registration-form');
+            
+            // Register buttons
+            document.getElementById('main-register-btn').addEventListener('click', () => {
+                // Open the registration form
+                registrationForm.classList.add('open');
+                
+                // Scroll to the form
+                registrationForm.scrollIntoView({ behavior: 'smooth' });
+                
+                // Switch to registration tab
+                categoryTabs.forEach(t => {
+                    if (t.getAttribute('data-category') === 'registration') {
+                        t.click();
+                    }
+                });
+            });
+            
+            // Also handle the tab click for registration
+            categoryTabs.forEach(tab => {
+                if (tab.getAttribute('data-category') === 'registration') {
+                    tab.addEventListener('click', () => {
+                        registrationForm.classList.add('open');
+                    });
+                }
+            });
+
+            // Submit registration
+            const submitButtons = document.querySelectorAll('#submit-registration, #submit-form');
+            submitButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Get the form fields based on which form is being submitted
+                    const formPrefix = this.id === 'submit-registration' ? '' : 'reg-';
+                    
+                    // Basic validation
+                    const requiredFields = [
+                        `${formPrefix}team-name`, 
+                        `${formPrefix}team-captain`, 
+                        `${formPrefix}contact-email`, 
+                        `${formPrefix}contact-phone`, 
+                        `${formPrefix}discord-id`,
+                        `${formPrefix}player1`, 
+                        `${formPrefix}riot-id1`, 
+                        `${formPrefix}player2`, 
+                        `${formPrefix}riot-id2`, 
+                        `${formPrefix}player3`, 
+                        `${formPrefix}riot-id3`,
+                        `${formPrefix}player4`, 
+                        `${formPrefix}riot-id4`, 
+                        `${formPrefix}player5`, 
+                        `${formPrefix}riot-id5`
+                    ];
+                    
+                    let isValid = true;
+                    
+                    requiredFields.forEach(field => {
+                        const input = document.getElementById(field);
+                        if (input && !input.value.trim()) {
+                            input.classList.add('border-red-500');
+                            isValid = false;
+                        } else if (input) {
+                            input.classList.remove('border-red-500');
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+                    
+                    // Email validation
+                    const emailField = document.getElementById(`${formPrefix}contact-email`);
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailField && !emailPattern.test(emailField.value)) {
+                        emailField.classList.add('border-red-500');
+                        alert('Please enter a valid email address.');
+                        return;
+                    }
+                    
+                    // Phone validation
+                    const phoneField = document.getElementById(`${formPrefix}contact-phone`);
+                    if (phoneField && phoneField.value.length < 10) {
+                        phoneField.classList.add('border-red-500');
+                        alert('Please enter a valid phone number.');
+                        return;
+                    }
+                    
+                    // Collect form data
+                    const teamName = document.getElementById(`${formPrefix}team-name`).value;
+                    const teamCaptain = document.getElementById(`${formPrefix}team-captain`).value;
+                    const contactEmail = document.getElementById(`${formPrefix}contact-email`).value;
+                    
+                    // Create mailto link with form data
+                    const subject = encodeURIComponent(`Mini Valorant Tournament Registration - ${teamName}`);
+                    const body = encodeURIComponent(
+                        `Team Registration Details:\n\n` +
+                        `Team Name: ${teamName}\n` +
+                        `Team Captain: ${teamCaptain}\n` +
+                        `Contact Email: ${contactEmail}\n` +
+                        `Contact Phone: ${document.getElementById(`${formPrefix}contact-phone`).value}\n` +
+                        `Discord ID: ${document.getElementById(`${formPrefix}discord-id`).value}\n\n` +
+                        `Player 1 (Captain): ${document.getElementById(`${formPrefix}player1`).value} - ${document.getElementById(`${formPrefix}riot-id1`).value}\n` +
+                        `Player 2: ${document.getElementById(`${formPrefix}player2`).value} - ${document.getElementById(`${formPrefix}riot-id2`).value}\n` +
+                        `Player 3: ${document.getElementById(`${formPrefix}player3`).value} - ${document.getElementById(`${formPrefix}riot-id3`).value}\n` +
+                        `Player 4: ${document.getElementById(`${formPrefix}player4`).value} - ${document.getElementById(`${formPrefix}riot-id4`).value}\n` +
+                        `Player 5: ${document.getElementById(`${formPrefix}player5`).value} - ${document.getElementById(`${formPrefix}riot-id5`).value}\n\n` +
+                        `Please send payment instructions to complete registration.\n`
+                    );
+                    
+                    // Open email client with pre-filled data
+                    window.location.href = `mailto:gravax.design@gmail.com?subject=${subject}&body=${body}`;
+                    
+                    // Show success message
+                    alert(`Registration submitted! Your email client should open with all your team details. If not, please email your team information directly to gravax.design@gmail.com. Don't forget to join our Discord server at https://discord.gg/aHsnT3mKgX`);
+                    
+                    // Reset form
+                    requiredFields.forEach(field => {
+                        const input = document.getElementById(field);
+                        if (input) input.value = '';
+                    });
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'960fa12412273292',t:'MTc1MjgxNzA3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
